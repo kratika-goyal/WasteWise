@@ -1,37 +1,73 @@
-# ♻️ WasteWise
+# React + TypeScript + Vite
 
-WasteWise is an AI-powered waste management web application developed to support **United Nations Sustainable Development Goal 12: Responsible Consumption and Production**.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Users can upload images of waste items, and the integrated Teachable Machine model classifies them into categories such as Recyclable, Organic, E-Waste, Hazardous, and Landfill waste. The platform then provides disposal guidance, recycling tips, sustainability tracking, and achievement badges to encourage environmentally responsible behavior.
+Currently, two official plugins are available:
 
-## Features
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
--  AI-powered waste classification using Teachable Machine
--  Image upload and instant waste identification
--  Disposal instructions and recycling tips
--  Sustainability dashboard with statistics and insights
--  Eco points, milestones, and achievement badges
--  Scan history tracking
--  User authentication and profile management
--  Promotes sustainable waste disposal practices
+## React Compiler
 
-## Tech Stack
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-- React.js
-- React Router
-- Teachable Machine
-- Local Storage
-- Recharts
-- Lucide React Icons
-- CSS
+## Expanding the ESLint configuration
 
-## SDG Alignment
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-WasteWise contributes to:
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-**SDG 12 – Responsible Consumption and Production**
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-by helping users make informed waste disposal decisions, reduce landfill waste, encourage recycling, and build sustainable habits.
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-##Author
-Kratika Goyal
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
